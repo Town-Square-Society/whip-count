@@ -30,7 +30,7 @@ export const TRACKED_ISSUES = [{
     link: "#hr1",
     description: "Do your Senators support expanding Americans voting access and limiting the influence of money in our elections?",
     aboutLinkText: "See legislative details.",
-    aboutLinkHref: "https://www.congress.gov/bill/116th-congress/house-bill/51",
+    aboutLinkHref: "https://www.congress.gov/bill/117th-congress/senate-bill/1",
     markerPosition: [50, 60],
 
 }, {

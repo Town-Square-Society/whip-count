@@ -7,6 +7,7 @@ const FILIBUSTER_STATUS_KEY = "filibusterReformStatus";
 const DC_STATEHOOD_STATUS_KEY = "dcStatehoodStatus";
 const HR1_STATUS_KEY = "hr1Status";
 const HR4_STATUS_KEY = "hr4Status";
+const PR_STATEHOOD_STATUS_KEY = "prStateHoodStatus";
 
 export const TRACKED_ISSUES = [{
     key: FILIBUSTER_STATUS_KEY,
@@ -41,9 +42,25 @@ export const TRACKED_ISSUES = [{
     aboutLinkText: "See legislative details.",
     aboutLinkHref: "https://www.leahy.senate.gov/imo/media/doc/John%20Lewis%20Voting%20Rights%20Advancement%20Act%20one%20pager.pdf",
     markerPosition: [50, 60],
-}]
+}, {
+    key: PR_STATEHOOD_STATUS_KEY,
+    header: "Puerto Rico Statehood",
+    link: "#pr-statehood",
+    description: "Do your Senators support statehood for Puerto Rico?",
+    aboutLinkText: "See legislative details.",
+    aboutLinkHref: "https://www.congress.gov/bill/116th-congress/house-bill/4901/text",
+    markerPosition: [50, 60], 
+                              }]
 
 export const STATUS_TO_SHOW = IMPEACHMENT_STATUS_KEY;
+
+const PR_STATEHOOD_STATUS_TYPE_LIST = [
+    "Supports P.R. Statehood",
+    "Open to P.R. Statehood", 
+    "Position unknown or unclear", 
+    "Supported P.R. Statehood in the Past", 
+    "Opposed to P.R. Statehood"
+];
 
 const DC_STATEHOOD_STATUS_TYPE_LIST = [
     "Supports D.C. Statehood",
@@ -166,6 +183,10 @@ export const STATUS_MAPPING = {
     [FILIBUSTER_STATUS_KEY]: {
         shortStatus: FILIBUSTER_STATUS_TYPE_LIST,
         longStatus: FILIBUSTER_STATUS_TYPE_LIST
+      },
+    [PR_STATEHOOD_STATUS_KEY]: {
+        shortStatus: PR_STATEHOOD_STATUS_TYPE_LIST,
+        longStatus: PR_STATEHOOD_STATUS_TYPE_LIST
     }
 }
 

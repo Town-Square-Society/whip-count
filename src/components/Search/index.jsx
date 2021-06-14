@@ -49,7 +49,7 @@ const Search = ({
         allowClear
         showArrow={false}
         suffixIcon={<SearchOutlined />}
-        placeholder="Search Senator's name or state"
+        placeholder="Search Senator's name"
         optionFilterProp="children"
         onChange={onChange}
         onFocus={onFocus}

@@ -70,7 +70,10 @@ class App extends Component {
           const data = {
             ...node.data()
           }
-          trackedIssues.push(data)
+          if (data.active) {
+
+            trackedIssues.push(data)
+          }
         })
       }).then(() => {
             if (window.location.hash) {

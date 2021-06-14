@@ -47,10 +47,13 @@ export const getStatusDisplay = (trackedIssues, issue) => {
     const statusText = getCurrentIssueStatusToTextMap(trackedIssues, issue)
     const statusDisplay = [];
     for (let index = 0; index < trackedIssues.length; index++) {
-        statusDisplay.push({
-            value: index + 1,
-            text: statusText[index + 1]
-        })
+        if (statusText[index + 1]) {
+
+            statusDisplay.push({
+                value: index + 1,
+                text: statusText[index + 1]
+            })
+        }
         
     }
     return statusDisplay

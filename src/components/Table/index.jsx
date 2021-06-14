@@ -161,11 +161,16 @@ class SenateTable extends React.Component {
           title="Position"
           dataIndex={["issues", selectedIssue, "status"]}
           key={selectedIssue}
-          filters={getStatusDisplay(selectedIssue)}
+          filters={getStatusDisplay(trackedIssues, selectedIssue)}
           onFilter={(value, record) => {
             return record.issues[selectedIssue].status.includes(value);
           }}
-          sorter={makeSortFunction(selectedIssue)}
+          sorter={
+             (a, b) =>
+              Number(b.issues[selectedIssue].status) -
+              Number(a.issues[selectedIssue].status)
+          
+          }
           render={(statusNo) => {
             return (
               <Tag color={STATUS_COLORS[statusNo]} key={statusNo}>

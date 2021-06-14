@@ -75,7 +75,11 @@ const SenatorModal = ({
   selectedIssue,
   trackedIssues
 }) => {
-  const status = senator[selectedIssue] || "all";
+  let status = "all";
+  if (selectedIssue) {
+
+    status = senator.issues[selectedIssue].status;
+  }
   return (
     <>
       <Modal
@@ -152,7 +156,7 @@ const SenatorModal = ({
               <Card>
                 <Descriptions bordered column={1} size="small">
                   {trackedIssues.map((issue) => (
-                    <Descriptions.Item label={issue.header}>
+                    <Descriptions.Item label={issue.name} key={issue.name}>
                       {
                         getCurrentIssueStatusToTextMap(trackedIssues, issue.id)[
                           senator.issues[issue.id].status

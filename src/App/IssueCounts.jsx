@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row, Tooltip, Image } from "antd";
-import { map, find } from "lodash";
+import { map } from "lodash";
 
 
 import './style.css';

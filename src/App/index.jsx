@@ -75,7 +75,7 @@ class App extends Component {
       }).then(() => {
             if (window.location.hash) {
               const issue = find(trackedIssues, {
-                link: window.location.hash,
+                id: window.location.hash.split("#")[1],
               });
               if (issue) {
                 this.setIssue(issue.id);

@@ -167,7 +167,6 @@ class SenateTable extends React.Component {
           }}
           sorter={makeSortFunction(selectedIssue)}
           render={(statusNo) => {
-            console.log("POSITION id", statusNo);
             return (
               <Tag color={STATUS_COLORS[statusNo]} key={statusNo}>
                 {

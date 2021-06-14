@@ -5,7 +5,7 @@ import Highlighter from "react-highlight-words";
 
 import { STATUS_COLORS } from "../../constants";
 import "./style.css";
-import { getStatusDisplay, getStatusTypes } from "../../App/selectors";
+import { getStatusDisplay, getCurrentIssueStatusToTextMap } from "../../App/selectors";
 
 const { Column } = Table;
 export const makeSortFunction = (key) => {
@@ -107,7 +107,7 @@ class SenateTable extends React.Component {
       ),
   });
   render() {
-    const { senators, height, selectedIssue } = this.props;
+    const { senators, height, selectedIssue, trackedIssues } = this.props;
     return (
       <Table
         dataSource={senators}
@@ -159,17 +159,22 @@ class SenateTable extends React.Component {
         />
         <Column
           title="Position"
-          dataIndex={selectedIssue}
+          dataIndex={["issues", selectedIssue, "status"]}
           key={selectedIssue}
           filters={getStatusDisplay(selectedIssue)}
           onFilter={(value, record) => {
-            return record[selectedIssue].includes(value);
+            return record.issues[selectedIssue].status.includes(value);
           }}
           sorter={makeSortFunction(selectedIssue)}
-          render={(id) => {
+          render={(statusNo) => {
+            console.log("POSITION id", statusNo);
             return (
-              <Tag color={STATUS_COLORS[id]} key={id}>
-                {getStatusTypes(selectedIssue)[id]}
+              <Tag color={STATUS_COLORS[statusNo]} key={statusNo}>
+                {
+                  getCurrentIssueStatusToTextMap(trackedIssues, selectedIssue)[
+                    statusNo
+                  ]
+                }
               </Tag>
             );
           }}

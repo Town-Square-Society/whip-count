@@ -1,9 +1,8 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
-import { TRACKED_ISSUES } from "../../constants";
 import "./style.css";
 
-const LandingPageCards = ({ setIssue, height }) => (
+const LandingPageCards = ({ setIssue, height, trackedIssues }) => (
   <div style={{ height: height }} className="landing-page">
     <Row
       gutter={[16, 16]}
@@ -11,14 +10,14 @@ const LandingPageCards = ({ setIssue, height }) => (
       align="stretch"
       className="cards-row"
     >
-      {TRACKED_ISSUES.map((issue) => (
-        <Col span={8} key={issue.key}>
+      {trackedIssues.map((issue) => (
+        <Col span={8} key={issue.id}>
           <Card
             hoverable
             className="issue-card"
             actions={[
               <a
-                href={issue.aboutLinkHref}
+                href={issue.aboutLink}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -26,7 +25,7 @@ const LandingPageCards = ({ setIssue, height }) => (
               </a>,
             ]}
           >
-            <a href={issue.link} onClick={() => setIssue(issue.key)}>
+            <a href={`#${issue.id}`} onClick={() => setIssue(issue.id)}>
               <Card.Meta title={issue.header} description={issue.description} />
             </a>
           </Card>

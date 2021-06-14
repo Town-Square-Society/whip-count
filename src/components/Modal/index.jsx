@@ -6,8 +6,7 @@ import {
   LinkOutlined,
 } from "@ant-design/icons";
 import "./style.css";
-import { getStatusTypes } from "../../App/selectors";
-import { TRACKED_ISSUES } from "../../constants";
+import { getCurrentIssueStatusToTextMap } from "../../App/selectors";
 
 const { Meta } = Card;
 
@@ -48,25 +47,25 @@ const townHallsDisplay = (townHalls) => (
   </Card>
 );
 
-// const renderCitation = (senator) => {
-//   return (
-//     <>
-//       {/* {quote.year && <p className="quote-year">Statement in {quote.year}</p>}
-//       <p className="quote">{quote.text}</p> */}
-//       {senator.electionAcknowledgmentCitation && (
-//         <p className="quote-citation">
-//           <a
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             href={senator.electionAcknowledgmentCitation}
-//           >
-//             Link to citation
-//           </a>
-//         </p>
-//       )}
-//     </>
-//   );
-// };
+const renderCitation = (senator) => {
+  return (
+    <>
+      {/* {quote.year && <p className="quote-year">Statement in {quote.year}</p>}
+      <p className="quote">{quote.text}</p> */}
+      {senator.electionAcknowledgmentCitation && (
+        <p className="quote-citation">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={senator.electionAcknowledgmentCitation}
+          >
+            Link to citation
+          </a>
+        </p>
+      )}
+    </>
+  );
+};
 
 const SenatorModal = ({
   senator,
@@ -74,6 +73,7 @@ const SenatorModal = ({
   closeModal,
   townHalls,
   selectedIssue,
+  trackedIssues
 }) => {
   const status = senator[selectedIssue] || "all";
   return (
@@ -103,14 +103,16 @@ const SenatorModal = ({
               {selectedIssue && (
                 <Meta
                   description={`Position: ${
-                    getStatusTypes(selectedIssue)[senator[selectedIssue]]
+                    getCurrentIssueStatusToTextMap(trackedIssues, selectedIssue)[
+                      senator.issues[selectedIssue].status
+                    ]
                   }`}
                 />
               )}
             </Card>
           </div>
           <div className="right-container modal-col">
-            {/* {renderCitation(senator)} */}
+            {renderCitation(senator)}
             <Card
               title="Contact:"
               actions={[
@@ -149,9 +151,13 @@ const SenatorModal = ({
             {!selectedIssue && (
               <Card>
                 <Descriptions bordered column={1} size="small">
-                  {TRACKED_ISSUES.map((issue) => (
+                  {trackedIssues.map((issue) => (
                     <Descriptions.Item label={issue.header}>
-                      {getStatusTypes(issue.key)[senator[issue.key]]}
+                      {
+                        getCurrentIssueStatusToTextMap(trackedIssues, issue.id)[
+                          senator.issues[issue.id].status
+                        ]
+                      }
                     </Descriptions.Item>
                   ))}
                 </Descriptions>

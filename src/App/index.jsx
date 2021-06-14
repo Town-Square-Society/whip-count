@@ -8,6 +8,7 @@ import { firestore, firebasedb } from '../utils/setup-firebase';
 import {
   getFilteredSenators,
   getSenatorsByStatus,
+  getSelectedIssueData,
 } from "./selectors";
 import SenatorModal from "../components/Modal";
 import Search from "../components/Search";
@@ -16,7 +17,6 @@ import { makeSortFunction } from '../components/Table';
 
 import IssueCounts from './IssueCounts';
 import LandingPageCards from '../components/LandingPageCards';
-import { TRACKED_ISSUES } from '../constants';
 
 const { Header, Content, Footer } = Layout;
 
@@ -40,6 +40,7 @@ const formatParty = (party) => {
 class App extends Component {
   state = {
     senators: [],
+    trackedIssues: [],
     modalSenator: null,
     searchText: "",
     searchedColumn: "",
@@ -49,14 +50,7 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    if (window.location.hash) {
-      const issue = find(TRACKED_ISSUES, { link: window.location.hash });
-      if (issue) {
-        this.setIssue(issue.key)
-      } else {
-        window.history.replaceState({}, "", "/");
-      }
-    }
+
 
     firebasedb
       .ref("townHalls")
@@ -68,24 +62,46 @@ class App extends Component {
         });
         this.setState({ townHalls });
       });
-    firestore
-      .collection("whip_count_2020")
+    const trackedIssues = [];
+    firestore.collection("whip_count_metadata")
       .get()
-      .then((snapshot) => {
-        const senators = [];
-        snapshot.forEach((node) => {
+      .then(snapshot => {
+        snapshot.forEach(node => {
           const data = {
-            ...node.data(),
-            id: node.id,
-            party: node.data().party
-              ? formatParty(node.data().party)
-              : console.log(node.data().displayName),
-          };
-          senators.push(data);
-        });
-        senators.sort(makeSortFunction("state"));
-        this.setState({ senators });
-      });
+            ...node.data()
+          }
+          trackedIssues.push(data)
+        })
+      }).then(() => {
+            if (window.location.hash) {
+              const issue = find(trackedIssues, {
+                link: window.location.hash,
+              });
+              if (issue) {
+                this.setIssue(issue.id);
+              } else {
+                window.history.replaceState({}, "", "/");
+              }
+            }
+        firestore
+          .collection("whip_count_2020")
+          .get()
+          .then((snapshot) => {
+            const senators = [];
+            snapshot.forEach((node) => {
+              const data = {
+                ...node.data(),
+                id: node.id,
+                party: node.data().party
+                  ? formatParty(node.data().party)
+                  : console.log(node.data().displayName),
+              };
+              senators.push(data);
+            });
+            senators.sort(makeSortFunction("state"));
+            this.setState({ senators, trackedIssues });
+          });
+      })
       this.getContentHeight();
       window.addEventListener("resize", () => this.getContentHeight());
 
@@ -159,6 +175,7 @@ class App extends Component {
         townHalls={thisTownhalls}
         closeModal={this.closeModal}
         selectedIssue={this.state.selectedIssue}
+        trackedIssues={this.state.trackedIssues}
       />
     );
   };
@@ -197,7 +214,6 @@ class App extends Component {
       this.state.searchedColumn,
       this.state.searchText
     );
-
     return (
       <Layout className="App">
         <div
@@ -218,7 +234,7 @@ class App extends Component {
                 </Button>
               </Col>
               <Col span={12}>
-                <h1>{find(TRACKED_ISSUES, { key: selectedIssue }).header}</h1>
+                <h1>{getSelectedIssueData(this.state.trackedIssues, selectedIssue).name}</h1>
               </Col>
             </Row>
           ) : (
@@ -257,24 +273,17 @@ class App extends Component {
               selectedIssue={this.state.selectedIssue}
               handleSearch={this.handleSearch}
               handleReset={this.handleReset}
+              trackedIssues={this.state.trackedIssues}
             />
           ) : (
             <LandingPageCards
               setIssue={this.setIssue}
               height={this.state.contentHeight}
+              trackedIssues={this.state.trackedIssues || []}
             />
           )}
         </Content>
         <Footer>
-          {/* <div>
-            <a
-              href="https://townhallproject.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img className="logo" alt="town hall project" src={thpLogo} />
-            </a>{" "}
-          </div> */}
           <div>
             <Button href="mailto:info@peoplestownhall.org" type="text">
               Contact

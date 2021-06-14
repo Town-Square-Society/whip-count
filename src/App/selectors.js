@@ -1,9 +1,7 @@
 import {
-    filter
+    filter,
+    find
 } from "lodash";
-import {
-    STATUS_MAPPING
-} from "../constants";
 
 export const getSenatorsByStatus = (allSenators, selectedStatus) => {
     if (!selectedStatus) {
@@ -11,7 +9,7 @@ export const getSenatorsByStatus = (allSenators, selectedStatus) => {
     }
 
     return allSenators.reduce((acc, cur) => {
-        const statusKey = cur[selectedStatus]
+        const statusKey = cur.issues[selectedStatus].status
         if (!acc[statusKey]) {
             acc[statusKey] = [cur]
         } else {
@@ -21,44 +19,42 @@ export const getSenatorsByStatus = (allSenators, selectedStatus) => {
     }, {})
 }
 
-export const getShortStatusText = (issue) => {
-    if (!issue) {
+export const getSelectedIssueData = (trackedIssues, issue) => {
+        if (!issue) {
+            return {}
+        }
+        const issueData = find(trackedIssues, {
+            id: issue
+        });
+        return issueData || {}
+    }
+
+
+export const getCurrentIssueStatusToTextMap = (trackedIssues, issue) => {
+
+    const issueData = getSelectedIssueData(trackedIssues, issue);
+    if (!issueData.statusText) {
         return {}
     }
-    return STATUS_MAPPING[issue].shortStatus.reduce((acc, status, index) => {
+
+    return issueData.statusText.reduce((acc, status, index, array) => {
         acc[index + 1] = status;
         return acc;
     }, {})
 }
 
-export const getLongStatusText = (issue) => {
-    if (!issue) {
-        return {}
-    }
-    return STATUS_MAPPING[issue].longStatus.reduce((acc, status, index, array) => {
-        acc[index + 1] = status;
-        return acc;
-    }, {})
-}
-
-export const getStatusTypes = (issue) => {
-    return STATUS_MAPPING[issue].longStatus.reduce((acc, status, index, array) => {
-        acc[index + 1] = status;
-        return acc;
-    }, {})
-}
-
-export const getStatusDisplay = (issue) => {
-    const statusDisplay = STATUS_MAPPING[issue].longStatus
-        .map((status, index) => {
-
-            return {
-                value: index + 1,
-                text: status,
-            }
+export const getStatusDisplay = (trackedIssues, issue) => {
+    const statusText = getCurrentIssueStatusToTextMap(trackedIssues, issue)
+    const statusDisplay = [];
+    for (let index = 0; index < trackedIssues.length; index++) {
+        statusDisplay.push({
+            value: index + 1,
+            text: statusText[index + 1]
         })
-        .filter((ele) => !!ele.text)
+        
+    }
     return statusDisplay
+
 }
 
 export const getFilteredSenators = (allSenators, filterKey, filterValue) => {

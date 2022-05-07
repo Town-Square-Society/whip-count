@@ -47,18 +47,13 @@ const townHallsDisplay = (townHalls) => (
   </Card>
 );
 
-const renderCitation = (senator) => {
+const renderCitation = (senator, selectedIssue) => {
+  const citation = senator.issues[selectedIssue].citation
   return (
     <>
-      {/* {quote.year && <p className="quote-year">Statement in {quote.year}</p>}
-      <p className="quote">{quote.text}</p> */}
-      {senator.electionAcknowledgmentCitation && (
+      {citation && (
         <p className="quote-citation">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={senator.electionAcknowledgmentCitation}
-          >
+          <a target="_blank" rel="noopener noreferrer" href={citation}>
             Link to citation
           </a>
         </p>
@@ -80,6 +75,7 @@ const SenatorModal = ({
 
     status = senator.issues[selectedIssue].status;
   }
+  
   return (
     <>
       <Modal
@@ -107,16 +103,17 @@ const SenatorModal = ({
               {selectedIssue && (
                 <Meta
                   description={`Position: ${
-                    getCurrentIssueStatusToTextMap(trackedIssues, selectedIssue)[
-                      senator.issues[selectedIssue].status
-                    ]
+                    getCurrentIssueStatusToTextMap(
+                      trackedIssues,
+                      selectedIssue
+                    )[senator.issues[selectedIssue].status]
                   }`}
                 />
               )}
             </Card>
           </div>
           <div className="right-container modal-col">
-            {renderCitation(senator)}
+            {renderCitation(senator, selectedIssue)}
             <Card
               title="Contact:"
               actions={[

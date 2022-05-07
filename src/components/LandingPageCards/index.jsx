@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
+import { LinkOutlined } from "@ant-design/icons";
+
 import "./style.css";
 
 const LandingPageCards = ({ setIssue, height, trackedIssues }) => (
@@ -13,6 +15,7 @@ const LandingPageCards = ({ setIssue, height, trackedIssues }) => (
       {trackedIssues.map((issue) => (
         <Col span={8} key={issue.id}>
           <Card
+            bodyStyle={{ padding: 0 }}
             hoverable
             className="issue-card"
             actions={[
@@ -21,12 +24,17 @@ const LandingPageCards = ({ setIssue, height, trackedIssues }) => (
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {issue.aboutLinkText}
+                {issue.aboutLinkText} <LinkOutlined />
               </a>,
             ]}
           >
-            <a href={`#${issue.id}`} onClick={() => setIssue(issue.id)}>
-              <Card.Meta title={issue.header} description={issue.description} />
+            <a href={`#${issue.id}`}>
+              <Card.Meta
+                title={issue.header}
+                onClick={() => setIssue(issue.id)}
+                description={issue.description}
+                style={{ padding: 20 }}
+              />
             </a>
           </Card>
         </Col>

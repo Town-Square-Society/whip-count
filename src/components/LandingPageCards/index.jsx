@@ -4,8 +4,8 @@ import { LinkOutlined } from "@ant-design/icons";
 
 import "./style.css";
 
-const LandingPageCards = ({ setIssue, height, trackedIssues }) => (
-  <div style={{ height: height }} className="landing-page">
+const LandingPageCards = ({ setIssue, trackedIssues }) => (
+  <div className="landing-page">
     <Row
       gutter={[16, 16]}
       justify="space-evenly"

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Button, Col, Row } from "antd";
-import { find, filter } from "lodash";
+import { find, filter, reverse } from "lodash";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import classNames from "classnames";
 
@@ -282,7 +282,7 @@ class App extends Component {
             <LandingPageCards
               setIssue={this.setIssue}
               height={this.state.contentHeight}
-              trackedIssues={this.state.trackedIssues || []}
+              trackedIssues={reverse(this.state.trackedIssues) || []}
             />
           )}
         </Content>

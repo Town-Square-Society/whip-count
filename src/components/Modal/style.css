@@ -60,7 +60,6 @@
 
 .ant-card-actions>li>span a:not(.ant-btn),
 .ant-card-actions>li>span>.anticon {
-    color: #7f48f3;
     font-size: 24px;
 }
 

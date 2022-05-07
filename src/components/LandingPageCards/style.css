@@ -16,3 +16,8 @@
 .issue-card a {
     font-size: 1em!important;
 }
+
+.ant-card-meta-description {
+    color: black;
+    font-weight: 600;
+}

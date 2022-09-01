@@ -119,6 +119,8 @@ h1{
 
 .image-container {
   width: 30px;
+  height: 36px;
+  overflow: hidden;
   cursor: pointer;
 }
 
@@ -133,6 +135,7 @@ h1{
 .image-container.independent {
   background-color: purple;
 }
+
 .image-container .ant-image img {
   width: 100%;
   height: auto;

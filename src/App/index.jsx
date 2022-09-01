@@ -6,7 +6,6 @@ import {
   FacebookFilled,
   MailFilled,
   TwitterCircleFilled,
-  TwitterOutlined,
 } from "@ant-design/icons";
 import classNames from "classnames";
 import { LinkOutlined } from "@ant-design/icons";

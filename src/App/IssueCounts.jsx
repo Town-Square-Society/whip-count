@@ -1,33 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Col, Row, Tooltip, Image } from "antd";
 import { map } from "lodash";
 
+import "./style.css";
+import SenateTable from "../components/Table";
 
-import './style.css';
-import SenateTable from '../components/Table';
-
-import circleInPerson from '../circle-in-person.svg'
-import ProgressBar from '../components/ProgressBar';
+import circleInPerson from "../circle-in-person.svg";
+import ProgressBar from "../components/ProgressBar";
 import { getCurrentIssueStatusToTextMap } from "./selectors";
-
 
 const tooltipPlacement = {
   1: "right",
   2: "top",
   3: "top",
-  4: "left"
-}
-
+  4: "left",
+};
 
 class IssueCounts extends Component {
-
-
   componentDidMount = () => {
-    
-        this.getTableHight();
+    this.getTableHight();
 
- 
-      window.addEventListener("resize", () => this.getTableHight());
+    window.addEventListener("resize", () => this.getTableHight());
+  };
+
+  getSrc = (govtrack_id) => {
+    if (govtrack_id === "456857") {
+      return "https://www.senate.gov/general/resources/graphic/medium/ossoff-jon.png";
+    } else {
+      return `https://www.govtrack.us/static/legislator-photos/${govtrack_id}-100px.jpeg`;
+    }
   };
 
   handleStateSearch = (value) => {
@@ -38,7 +39,9 @@ class IssueCounts extends Component {
   };
 
   getTableHight = () => {
-    const statusContainer = document.getElementsByClassName("all-status-container");
+    const statusContainer = document.getElementsByClassName(
+      "all-status-container"
+    );
     const footer = document.getElementsByClassName("ant-layout-footer");
     const progressBar = document.getElementsByClassName(
       "progress-bar-container"
@@ -52,17 +55,13 @@ class IssueCounts extends Component {
         tableHeader[0].scrollHeight;
       const windowHeight = window.innerHeight;
       const tableHeight = windowHeight - height;
-      this.props.setTableHeight( tableHeight );
+      this.props.setTableHeight(tableHeight);
     }
-  }
-
-
-
-  selectSenator = (senator) => {
-    this.props.selectSenator(senator)
   };
 
- 
+  selectSenator = (senator) => {
+    this.props.selectSenator(senator);
+  };
 
   render() {
     const {
@@ -75,7 +74,7 @@ class IssueCounts extends Component {
       trackedIssues,
       selectedIssue
     );
-    
+
     return (
       <>
         <Row className="all-status-container">
@@ -105,7 +104,7 @@ class IssueCounts extends Component {
                           preview={false}
                           alt={senator.displayName}
                           fallback={circleInPerson}
-                          src={`https://www.govtrack.us/static/legislator-photos/${senator.govtrack_id}-100px.jpeg`}
+                          src={this.getSrc(senator.govtrack_id)}
                         />
                       </div>
                     </Tooltip>
@@ -116,7 +115,10 @@ class IssueCounts extends Component {
           })}
         </Row>
         {senateMapByStatus[1] && (
-          <ProgressBar senateMapByStatus={senateMapByStatus} markerPosition={[50,60]}/>
+          <ProgressBar
+            senateMapByStatus={senateMapByStatus}
+            markerPosition={[50, 60]}
+          />
         )}
         <Row className="table-container" gutter={16}>
           <SenateTable
@@ -137,6 +139,5 @@ class IssueCounts extends Component {
     );
   }
 }
-
 
 export default IssueCounts;

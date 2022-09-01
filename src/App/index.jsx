@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Layout, Button, Col, Row } from "antd";
 import { find, filter, reverse } from "lodash";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  FacebookFilled,
+  MailFilled,
+  TwitterCircleFilled,
+  TwitterOutlined,
+} from "@ant-design/icons";
 import classNames from "classnames";
 import { LinkOutlined } from "@ant-design/icons";
 
-import { firestore, firebasedb } from '../utils/setup-firebase';
+import { firestore, firebasedb } from "../utils/setup-firebase";
 import {
   getFilteredSenators,
   getSenatorsByStatus,
@@ -13,31 +19,30 @@ import {
 } from "./selectors";
 import SenatorModal from "../components/Modal";
 import Search from "../components/Search";
-import './style.css';
-import { makeSortFunction } from '../components/Table';
+import "./style.css";
+import { makeSortFunction } from "../components/Table";
 
-import IssueCounts from './IssueCounts';
-import LandingPageCards from '../components/LandingPageCards';
+import IssueCounts from "./IssueCounts";
+import LandingPageCards from "../components/LandingPageCards";
 
 const { Header, Content, Footer } = Layout;
 
 const formatParty = (party) => {
   if (!party) {
-    return console.log('no party')
+    return console.log("no party");
   }
   if (party.length > 1) {
-    return party
+    return party;
   }
   switch (party) {
-    case 'D':
-      return 'Democratic'
-      case 'R':
-        return 'Republican'
-      default: 
-        return 'Independent'
+    case "D":
+      return "Democratic";
+    case "R":
+      return "Republican";
+    default:
+      return "Independent";
   }
-
-}
+};
 class App extends Component {
   state = {
     senators: [],
@@ -53,7 +58,6 @@ class App extends Component {
   componentDidMount = () => {
     window.addEventListener("hashchange", this.handleHashChange, false);
 
-
     firebasedb
       .ref("townHalls")
       .once("value")
@@ -65,29 +69,30 @@ class App extends Component {
         this.setState({ townHalls });
       });
     const trackedIssues = [];
-    firestore.collection("whip_count_metadata")
+    firestore
+      .collection("whip_count_metadata")
       .get()
-      .then(snapshot => {
-        snapshot.forEach(node => {
+      .then((snapshot) => {
+        snapshot.forEach((node) => {
           const data = {
-            ...node.data()
-          }
+            ...node.data(),
+          };
           if (data.active) {
-
-            trackedIssues.push(data)
+            trackedIssues.push(data);
           }
-        })
-      }).then(() => {
-            if (window.location.hash) {
-              const issue = find(trackedIssues, {
-                id: window.location.hash.split("#")[1],
-              });
-              if (issue) {
-                this.setIssue(issue.id);
-              } else {
-                window.history.replaceState({}, "", "/");
-              }
-            }
+        });
+      })
+      .then(() => {
+        if (window.location.hash) {
+          const issue = find(trackedIssues, {
+            id: window.location.hash.split("#")[1],
+          });
+          if (issue) {
+            this.setIssue(issue.id);
+          } else {
+            window.history.replaceState({}, "", "/");
+          }
+        }
         firestore
           .collection("whip_count_2020")
           .get()
@@ -106,22 +111,19 @@ class App extends Component {
             senators.sort(makeSortFunction("state"));
             this.setState({ senators, trackedIssues });
           });
-      })
-      this.getContentHeight();
-      window.addEventListener("resize", () => this.getContentHeight());
-
+      });
+    this.getContentHeight();
+    window.addEventListener("resize", () => this.getContentHeight());
   };
 
   handleHashChange = (change) => {
     if (change.oldURL.split("#")[0] === change.newURL) {
-      this.clearIssue()
+      this.clearIssue();
     }
-  }
+  };
 
   getContentHeight = () => {
-    const titleBar = document.getElementsByClassName(
-      "title-bar"
-    );
+    const titleBar = document.getElementsByClassName("title-bar");
     const footer = document.getElementsByClassName("ant-layout-footer");
 
     const header = document.getElementsByClassName("ant-layout-header");
@@ -129,10 +131,10 @@ class App extends Component {
       const height =
         titleBar[0].scrollHeight +
         header[0].scrollHeight +
-        footer[0].scrollHeight
+        footer[0].scrollHeight;
       const windowHeight = window.innerHeight;
-      const contentHeight = windowHeight - height -40;
-      this.setState({ contentHeight })
+      const contentHeight = windowHeight - height - 40;
+      this.setState({ contentHeight });
     }
   };
 
@@ -152,7 +154,7 @@ class App extends Component {
   };
 
   clearIssue = () => {
-    window.history.pushState({}, "", "/")
+    window.history.pushState({}, "", "/");
     this.setState({ selectedIssue: "" });
   };
 
@@ -225,7 +227,10 @@ class App extends Component {
       this.state.searchedColumn,
       this.state.searchText
     );
-    const issueInfo = getSelectedIssueData(this.state.trackedIssues, selectedIssue)
+    const issueInfo = getSelectedIssueData(
+      this.state.trackedIssues,
+      selectedIssue
+    );
     return (
       <Layout className="App">
         <div
@@ -306,15 +311,35 @@ class App extends Component {
         </Content>
         <Footer>
           <div>
-            <Button href="mailto:info@peoplestownhall.org" type="text">
-              Contact
-            </Button>
+            <Button
+              href="mailto:info@peoplestownhall.org"
+              icon={<MailFilled />}
+              shape="circle"
+              ghost
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+            <Button
+              href="https://twitter.com/PeoplesTH"
+              icon={<TwitterCircleFilled />}
+              shape="circle"
+              ghost
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+            <Button
+              href="https://www.facebook.com/PeoplesTH"
+              icon={<FacebookFilled />}
+              shape="circle"
+              ghost
+              target="_blank"
+              rel="noopener noreferrer"
+            />
           </div>
         </Footer>
       </Layout>
     );
   }
 }
-
 
 export default App;

@@ -150,14 +150,17 @@ h1{
 }
 .ant-layout-footer {
   padding: 10px 20px;
-  background-color: #f0f0f0;
-  display: flex;
-  justify-content: flex-end;
-  justify-items: center;
+  background-color: #aca7b6;
 }
-.ant-layout-footer .logo {
-  width: 40px;
-  margin: 0 20px;
+
+.ant-layout-footer div {
+    display: flex;
+    justify-content: flex-end;
+    justify-items: center;
+}
+
+.ant-layout-footer a {
+      margin: 0 5px;
 }
 
 @media screen and (max-width: 576px) {

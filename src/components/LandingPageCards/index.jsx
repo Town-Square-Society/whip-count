@@ -21,7 +21,7 @@ const LandingPageCards = ({ setIssue, trackedIssues }) => (
           >
             <a href={`#${issue.id}`}>
               <Card.Meta
-                title={issue.header}
+                title={issue.name}
                 onClick={() => setIssue(issue.id)}
                 description={issue.description}
                 style={{ padding: 20 }}

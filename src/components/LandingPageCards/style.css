@@ -17,7 +17,15 @@
     font-size: 1em!important;
 }
 
-.ant-card-meta-description {
-    color: black;
+.ant-card-meta {
+    color: #683815;
+}
+
+.ant-card-meta:hover {
+    color: #e66101;
     font-weight: 600;
+}
+
+.ant-card-meta-description{
+    color: inherit;
 }

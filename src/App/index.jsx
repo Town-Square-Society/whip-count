@@ -51,6 +51,7 @@ class App extends Component {
   };
 
   componentDidMount = () => {
+    window.addEventListener("hashchange", this.handleHashChange, false);
 
 
     firebasedb
@@ -110,6 +111,12 @@ class App extends Component {
       window.addEventListener("resize", () => this.getContentHeight());
 
   };
+
+  handleHashChange = (change) => {
+    if (change.oldURL.split("#")[0] === change.newURL) {
+      this.clearIssue()
+    }
+  }
 
   getContentHeight = () => {
     const titleBar = document.getElementsByClassName(

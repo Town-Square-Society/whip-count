@@ -48,6 +48,9 @@ const townHallsDisplay = (townHalls) => (
 );
 
 const renderCitation = (senator, selectedIssue) => {
+  if (!selectedIssue) {
+    return null
+  }
   const citation = senator.issues[selectedIssue].citation
   return (
     <>

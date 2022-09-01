@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Layout, Button, Col, Row } from "antd";
-import { find, filter, reverse } from "lodash";
+import { find, filter, sortBy } from "lodash";
 import {
   ArrowLeftOutlined,
   FacebookFilled,
@@ -215,6 +215,10 @@ class App extends Component {
     this.setState({ modalSenator: null });
   };
 
+  sortIssues = (issues) => {
+    return sortBy(issues, "passed")
+  }
+
   render() {
     const { selectedIssue } = this.state;
     const senateMapByStatus = getSenatorsByStatus(
@@ -304,7 +308,7 @@ class App extends Component {
             <LandingPageCards
               setIssue={this.setIssue}
               height={this.state.contentHeight}
-              trackedIssues={reverse(this.state.trackedIssues) || []}
+              trackedIssues={this.sortIssues(this.state.trackedIssues) || []}
             />
           )}
         </Content>

@@ -21,6 +21,10 @@
     color: #683815;
 }
 
+.passed .ant-card-meta {
+    color:gray;
+}
+
 .ant-card-meta:hover {
     color: #e66101;
     font-weight: 600;
@@ -28,4 +32,8 @@
 
 .ant-card-meta-description{
     color: inherit;
+}
+
+.ant-card-actions li span:hover {
+    color: rgba(0, 0, 0, 0.45) !important;
 }

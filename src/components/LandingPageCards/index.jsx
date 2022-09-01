@@ -1,7 +1,19 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
+import classNames from "classnames";
 
 import "./style.css";
+import { CheckCircleFilled } from "@ant-design/icons";
+
+const getExtra = (issue) => {
+  if (issue.passed) {
+    return [(<CheckCircleFilled/>)]
+  } else if (issue.votesNeeded) {
+    return [<div>Votes needed to pass: {issue.votesNeeded}</div>]
+  } else {
+    return null
+  }
+}
 
 const LandingPageCards = ({ setIssue, trackedIssues }) => (
   <div className="landing-page">
@@ -16,8 +28,8 @@ const LandingPageCards = ({ setIssue, trackedIssues }) => (
           <Card
             bodyStyle={{ padding: 0 }}
             hoverable
-            className="issue-card"
-       
+            className={classNames({"issue-card": true, passed: issue.passed})}
+            actions={getExtra(issue)}
           >
             <a href={`#${issue.id}`}>
               <Card.Meta

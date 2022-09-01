@@ -3,6 +3,7 @@ import { Layout, Button, Col, Row } from "antd";
 import { find, filter, reverse } from "lodash";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import classNames from "classnames";
+import { LinkOutlined } from "@ant-design/icons";
 
 import { firestore, firebasedb } from '../utils/setup-firebase';
 import {
@@ -217,6 +218,7 @@ class App extends Component {
       this.state.searchedColumn,
       this.state.searchText
     );
+    const issueInfo = getSelectedIssueData(this.state.trackedIssues, selectedIssue)
     return (
       <Layout className="App">
         <div
@@ -237,7 +239,16 @@ class App extends Component {
                 </Button>
               </Col>
               <Col span={12}>
-                <h1>{getSelectedIssueData(this.state.trackedIssues, selectedIssue).name}</h1>
+                <h1>{issueInfo.name}</h1>
+                <small>
+                  <a
+                    href={issueInfo.aboutLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {issueInfo.aboutLinkText} <LinkOutlined />
+                  </a>
+                </small>
               </Col>
             </Row>
           ) : (

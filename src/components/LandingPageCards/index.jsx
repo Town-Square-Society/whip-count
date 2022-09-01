@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
-import { LinkOutlined } from "@ant-design/icons";
 
 import "./style.css";
 
@@ -18,15 +17,7 @@ const LandingPageCards = ({ setIssue, trackedIssues }) => (
             bodyStyle={{ padding: 0 }}
             hoverable
             className="issue-card"
-            actions={[
-              <a
-                href={issue.aboutLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {issue.aboutLinkText} <LinkOutlined />
-              </a>,
-            ]}
+       
           >
             <a href={`#${issue.id}`}>
               <Card.Meta

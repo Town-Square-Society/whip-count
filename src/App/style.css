@@ -46,11 +46,21 @@ h1{
   display: block;
 }
 
-
+.title-bar button {
+  color: #261b3b;
+  border-color: #261b3b;
+}
 
 .title-bar h1 {
   color: #261b3b;
+  margin-bottom: 2px;
 }
+.title-bar a {
+  background-color:#d9d9d9;
+  padding: 5px;
+  color: #261b3b;
+}
+
 .ant-layout-header .search-label {
   color: #ffffffd9;
   line-height: 2;

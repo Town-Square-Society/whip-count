@@ -255,7 +255,7 @@ class App extends Component {
               </Col>
               <Col span={12}>
                 <h1>{issueInfo.name}</h1>
-                <small>
+                <h4>
                   <a
                     href={issueInfo.aboutLink}
                     target="_blank"
@@ -263,7 +263,7 @@ class App extends Component {
                   >
                     {issueInfo.aboutLinkText} <LinkOutlined />
                   </a>
-                </small>
+                </h4>
               </Col>
             </Row>
           ) : (

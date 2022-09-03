@@ -30,7 +30,7 @@ const ProgressBar = ({ senateMapByStatus, markerPosition }) => (
       const top = (index + 1) * -22 - index;
       const opacity = 1 - index / 2;
       return (
-        <Tooltip title={pos}>
+        <Tooltip title={pos} key={index}>
           <div
             className={classNames("overlay-marker")}
             style={{ left: `${pos}%`, top: `${top}px`, opacity }}

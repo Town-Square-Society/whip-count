@@ -7,7 +7,7 @@ import SenateTable from "../components/Table";
 
 import circleInPerson from "../circle-in-person.svg";
 import ProgressBar from "../components/ProgressBar";
-import { getCurrentIssueStatusToTextMap } from "./selectors";
+import { getCurrentIssueStatusToTextMap, getVotesNeeded } from "./selectors";
 
 const tooltipPlacement = {
   1: "right",
@@ -74,7 +74,7 @@ class IssueCounts extends Component {
       trackedIssues,
       selectedIssue
     );
-
+    const votesNeeded = getVotesNeeded(trackedIssues, selectedIssue);
     return (
       <>
         <Row className="all-status-container">
@@ -117,7 +117,7 @@ class IssueCounts extends Component {
         {senateMapByStatus[1] && (
           <ProgressBar
             senateMapByStatus={senateMapByStatus}
-            markerPosition={[50, 60]}
+            markerPosition={votesNeeded}
           />
         )}
         <Row className="table-container" gutter={16}>

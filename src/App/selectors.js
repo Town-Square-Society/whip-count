@@ -29,6 +29,13 @@ export const getSelectedIssueData = (trackedIssues, issue) => {
         return issueData || {}
     }
 
+export const getVotesNeeded = (trackedIssues, issue) => {
+    const issueData = getSelectedIssueData(trackedIssues, issue);
+    if (!issueData.votesNeeded) {
+        return [50, 50]
+    }
+    return [issueData.votesNeeded]
+}
 
 export const getCurrentIssueStatusToTextMap = (trackedIssues, issue) => {
 
